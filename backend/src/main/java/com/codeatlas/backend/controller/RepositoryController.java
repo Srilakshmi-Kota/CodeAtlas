@@ -12,7 +12,7 @@ import com.codeatlas.backend.service.RepositoryService;
 
 @RestController
 @RequestMapping("/api/repository")
-public class HelloController {
+public class RepositoryController {
 
     @Autowired
     private RepositoryService repositoryService;

@@ -1,3 +1,5 @@
-spring:
+8RN6KOO2mn-SgtMmYLyB45tBspring:
   application:
     name: backend
+gemini:
+  api-key: ""

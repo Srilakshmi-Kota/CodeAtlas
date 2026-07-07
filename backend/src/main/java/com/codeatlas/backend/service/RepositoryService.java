@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.codeatlas.backend.ai.GeminiService;
 import com.codeatlas.backend.dto.GitHubRepositoryResponse;
 import com.codeatlas.backend.dto.RepositoryRequest;
 import com.codeatlas.backend.dto.RepositoryResponse;
@@ -16,7 +17,8 @@ import com.codeatlas.backend.scanner.ScannerResult;
 public class RepositoryService {
     @Autowired
 private GitHubService gitHubService;
-
+@Autowired
+private GeminiService geminiService;
 private final RepositoryScanner repositoryScanner = new RepositoryScanner();
     public RepositoryResponse analyzeRepository(RepositoryRequest request) {
 
@@ -55,7 +57,18 @@ private final RepositoryScanner repositoryScanner = new RepositoryScanner();
 
 ScannerResult result =
         repositoryScanner.scan(java.util.Arrays.asList(files));
+        System.out.println("Before Gemini");
 
+String summary = geminiService.generateSummary(result);
+
+System.out.println("After Gemini");
+
+System.out.println(summary);
+
+
+System.out.println("\n===== AI SUMMARY =====");
+System.out.println(summary);
+System.out.println("======================\n");
 System.out.println("Java Project  : " + result.isJavaProject());
 System.out.println("Maven Project : " + result.isMavenProject());
 System.out.println("Gradle Project: " + result.isGradleProject());

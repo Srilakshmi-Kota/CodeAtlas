@@ -30,6 +30,19 @@ public class RepositoryScanner {
             if (file.contains("src/test")) {
                 result.setHasTests(true);
             }
+            if (file.equals("pom.xml")) {
+    result.setMavenProject(true);
+}
+
+if (file.equals("build.gradle")) {
+    result.setGradleProject(true);
+}
+if (file.equals("application.yml")
+        || file.equals("application.yaml")
+        || file.equals("application.properties")) {
+
+    result.setSpringBootProject(true);
+}
         }
 
         return result;

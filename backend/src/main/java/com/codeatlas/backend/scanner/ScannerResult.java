@@ -8,7 +8,7 @@ public class ScannerResult {
     private boolean gradleProject;
     private boolean dockerProject;
     private boolean hasTests;
-
+    private boolean springBootProject;
     public ScannerResult() {
     }
 
@@ -58,5 +58,13 @@ public class ScannerResult {
 
     public void setHasTests(boolean hasTests) {
         this.hasTests = hasTests;
+    }
+
+    public boolean isSpringBootProject() {
+        return springBootProject;
+    }
+
+    public void setSpringBootProject(boolean springBootProject) {
+        this.springBootProject = springBootProject;
     }
 }

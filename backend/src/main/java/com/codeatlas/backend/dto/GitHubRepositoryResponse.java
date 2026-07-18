@@ -8,8 +8,45 @@ public class GitHubRepositoryResponse {
     private String language;
     private int stargazers_count;
     private int forks_count;
+    private int watchers_count;
     private int open_issues_count;
+    private String updated_at;
+    private String ownerAvatar;
+    public GitHubOwner getOwner() {
+        return owner;
+    }
 
+    public int getWatchers_count() {
+        return watchers_count;
+    }
+
+    public void setWatchers_count(int watchers_count) {
+        this.watchers_count = watchers_count;
+    }
+
+    public String getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public void setOwner(GitHubOwner owner) {
+        this.owner = owner;
+    }
+
+    private GitHubOwner owner;
+    public String getOwnerAvatar() {
+        return ownerAvatar;
+    }
+
+    public void setOwnerAvatar(String ownerAvatar) {
+        this.ownerAvatar = ownerAvatar;
+    }
+
+    
+   
     public GitHubRepositoryResponse() {
     }
 

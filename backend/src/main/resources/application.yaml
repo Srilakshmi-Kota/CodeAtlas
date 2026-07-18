@@ -2,4 +2,4 @@
   application:
     name: backend
 gemini:
-  api-key: ""
+  api-key: ${GEMINI_API_KEY}

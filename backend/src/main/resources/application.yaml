@@ -1,7 +1,9 @@
-8RN6KOO2mn-SgtMmYLyB45tBspring:
+spring:
   application:
     name: backend
+
 gemini:
   api-key: ${GEMINI_API_KEY}
+
 github:
   token: ${GITHUB_TOKEN}

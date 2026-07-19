@@ -3,3 +3,5 @@
     name: backend
 gemini:
   api-key: ${GEMINI_API_KEY}
+github:
+  token: ${GITHUB_TOKEN}

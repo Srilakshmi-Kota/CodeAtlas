@@ -240,3 +240,106 @@
   margin-top:10px;
   font-size:32px;
 }
+.insights-card {
+  margin-top: 30px;
+  background: #111827;
+  padding: 25px;
+  border-radius: 15px;
+}
+
+.insights-card h3 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.insight-item {
+  padding: 16px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  border: 1px solid transparent;
+}
+
+.insight-item span {
+  font-weight: 600;
+}
+
+.insight-item strong {
+  font-size: 13px;
+}
+
+.insight-item.detected {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.insight-item.detected strong {
+  color: #4ade80;
+}
+
+.insight-item.missing {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.insight-item.missing strong {
+  color: #f87171;
+}
+
+@media (max-width: 600px) {
+  .insights-grid {
+    grid-template-columns: 1fr;
+  }
+.analysis-overview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 25px;
+}
+
+.strengths-card,
+.weaknesses-card {
+  background: #111827;
+  padding: 22px;
+  border-radius: 15px;
+  text-align: left;
+}
+
+.strengths-card {
+  border: 1px solid rgba(34, 197, 94, 0.35);
+}
+
+.weaknesses-card {
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.strengths-card h3,
+.weaknesses-card h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.strengths-card p,
+.weaknesses-card p {
+  background: #1f2937;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  line-height: 1.5;
+  color: #e5e7eb;
+}
+
+@media (max-width: 700px) {
+  .analysis-overview {
+    grid-template-columns: 1fr;
+  }
+}
+}

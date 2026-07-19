@@ -21,25 +21,42 @@ public class GeminiService implements AIService {
                 .build();
 
         String prompt = """
-                You are a senior software engineer.
+        You are a senior software engineer analyzing a GitHub repository.
 
-                Analyze this project:
+        The following facts were detected directly from the repository.
+        Treat these values as authoritative. Do not contradict them.
 
-                Java Project: %s
-                Spring Boot: %s
-                Maven: %s
-                Gradle: %s
-                Docker: %s
-                Has Tests: %s
+        Java Project: %s
+        Spring Boot Project: %s
+        Maven Project: %s
+        Gradle Project: %s
+        Docker: %s
+        Automated Tests: %s
+        README: %s
+        CI/CD: %s
+        Documentation: %s
+        License: %s
 
-                Explain this project in simple English in 5-6 lines.
-                """.formatted(
-                scannerResult.isJavaProject(),
-                scannerResult.isSpringBoot(),
-                scannerResult.isMavenProject(),
-                scannerResult.isGradleProject(),
-                scannerResult.isDockerProject(),
-                scannerResult.isHasTests());
+        Write a concise 4-5 sentence technical summary.
+
+        Rules:
+        - Never claim that a detected technology is absent when its value is true.
+        - Do not assume missing technologies beyond the facts provided.
+        - Mention the strongest engineering practices detected.
+        - Mention important missing practices only when their value is false.
+        - Do not invent repository features.
+        """.formatted(
+        scannerResult.isJavaProject(),
+        scannerResult.isSpringBootProject(),
+        scannerResult.isMavenProject(),
+        scannerResult.isGradleProject(),
+        scannerResult.isDockerProject(),
+        scannerResult.isHasTests(),
+        scannerResult.isHasReadme(),
+        scannerResult.isHasCiCd(),
+        scannerResult.isHasDocumentation(),
+        scannerResult.isHasLicense()
+);
 
         GenerateContentResponse response =
                 client.models.generateContent(

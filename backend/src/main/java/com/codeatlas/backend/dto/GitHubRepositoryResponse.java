@@ -12,6 +12,7 @@ public class GitHubRepositoryResponse {
     private int open_issues_count;
     private String updated_at;
     private String ownerAvatar;
+    private String default_branch;
     public GitHubOwner getOwner() {
         return owner;
     }
@@ -105,4 +106,11 @@ public class GitHubRepositoryResponse {
     public void setOpen_issues_count(int open_issues_count) {
         this.open_issues_count = open_issues_count;
     }
+    public String getDefault_branch() {
+    return default_branch;
+}
+
+public void setDefault_branch(String default_branch) {
+    this.default_branch = default_branch;
+}
 }

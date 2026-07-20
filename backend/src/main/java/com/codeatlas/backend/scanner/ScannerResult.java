@@ -9,6 +9,10 @@ public class ScannerResult {
     private boolean dockerProject;
     private boolean hasTests;
     private boolean springBootProject;
+    private boolean hasReadme;
+    private boolean hasCiCd;
+    private boolean hasDocumentation;
+    private boolean hasLicense;
     public ScannerResult() {
     }
 
@@ -67,4 +71,35 @@ public class ScannerResult {
     public void setSpringBootProject(boolean springBootProject) {
         this.springBootProject = springBootProject;
     }
+    public boolean isHasReadme() {
+    return hasReadme;
+}
+
+public void setHasReadme(boolean hasReadme) {
+    this.hasReadme = hasReadme;
+}
+
+public boolean isHasCiCd() {
+    return hasCiCd;
+}
+
+public void setHasCiCd(boolean hasCiCd) {
+    this.hasCiCd = hasCiCd;
+}
+
+public boolean isHasDocumentation() {
+    return hasDocumentation;
+}
+
+public void setHasDocumentation(boolean hasDocumentation) {
+    this.hasDocumentation = hasDocumentation;
+}
+
+public boolean isHasLicense() {
+    return hasLicense;
+}
+
+public void setHasLicense(boolean hasLicense) {
+    this.hasLicense = hasLicense;
+}
 }

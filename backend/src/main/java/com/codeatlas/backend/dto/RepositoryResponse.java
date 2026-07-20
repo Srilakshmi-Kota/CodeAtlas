@@ -14,6 +14,10 @@ private boolean mavenProject;
 private boolean gradleProject;
 private boolean dockerProject;
 private boolean hasTests;
+private boolean hasReadme;
+private boolean hasCiCd;
+private boolean hasDocumentation;
+private boolean hasLicense;
 private boolean springBootProject;
 private String ownerAvatar;
 private int forks;
@@ -182,5 +186,36 @@ public String getAiRecommendations() {
 
 public void setAiRecommendations(String aiRecommendations) {
     this.aiRecommendations = aiRecommendations;
+}
+public boolean isHasReadme() {
+    return hasReadme;
+}
+
+public void setHasReadme(boolean hasReadme) {
+    this.hasReadme = hasReadme;
+}
+
+public boolean isHasCiCd() {
+    return hasCiCd;
+}
+
+public void setHasCiCd(boolean hasCiCd) {
+    this.hasCiCd = hasCiCd;
+}
+
+public boolean isHasDocumentation() {
+    return hasDocumentation;
+}
+
+public void setHasDocumentation(boolean hasDocumentation) {
+    this.hasDocumentation = hasDocumentation;
+}
+
+public boolean isHasLicense() {
+    return hasLicense;
+}
+
+public void setHasLicense(boolean hasLicense) {
+    this.hasLicense = hasLicense;
 }
 }

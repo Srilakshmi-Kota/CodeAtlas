@@ -10,39 +10,115 @@ public class RepositoryScanner {
 
         for (String file : fileNames) {
 
-            if (file.equalsIgnoreCase("pom.xml")) {
+            if (file == null) {
+                continue;
+            }
+
+            String normalizedFile = file
+                    .replace("\\", "/")
+                    .toLowerCase();
+
+            // JAVA
+            if (normalizedFile.endsWith(".java")) {
+                result.setJavaProject(true);
+            }
+
+            // MAVEN
+            if (normalizedFile.equals("pom.xml")
+                    || normalizedFile.endsWith("/pom.xml")) {
+
                 result.setJavaProject(true);
                 result.setMavenProject(true);
             }
 
-            if (file.equalsIgnoreCase("build.gradle")
-        || file.equalsIgnoreCase("build.gradle.kts")) {
-    result.setJavaProject(true);
-    result.setGradleProject(true);
-}
-            if (file.equalsIgnoreCase("Dockerfile")
-        || file.equalsIgnoreCase("docker-compose.yml")
-        || file.equalsIgnoreCase("docker-compose.yaml")) {
+            // GRADLE
+            if (normalizedFile.equals("build.gradle")
+                    || normalizedFile.equals("build.gradle.kts")
+                    || normalizedFile.endsWith("/build.gradle")
+                    || normalizedFile.endsWith("/build.gradle.kts")) {
 
-    result.setDockerProject(true);
-}
+                result.setJavaProject(true);
+                result.setGradleProject(true);
+            }
 
-            if (file.contains("src/test")) {
+            // DOCKER
+            if (normalizedFile.equals("dockerfile")
+                    || normalizedFile.endsWith("/dockerfile")
+                    || normalizedFile.equals("docker-compose.yml")
+                    || normalizedFile.equals("docker-compose.yaml")
+                    || normalizedFile.endsWith("/docker-compose.yml")
+                    || normalizedFile.endsWith("/docker-compose.yaml")) {
+
+                result.setDockerProject(true);
+            }
+
+            // TESTS
+            if (normalizedFile.startsWith("src/test/")
+                    || normalizedFile.contains("/src/test/")
+                    || normalizedFile.startsWith("test/")
+                    || normalizedFile.startsWith("tests/")) {
+
                 result.setHasTests(true);
             }
-            if (file.equals("pom.xml")) {
-    result.setMavenProject(true);
-}
 
-if (file.equals("build.gradle")) {
-    result.setGradleProject(true);
-}
-if (file.equals("application.yml")
-        || file.equals("application.yaml")
-        || file.equals("application.properties")) {
+            // SPRING BOOT SIGNALS
+            if (normalizedFile.endsWith("application.yml")
+                    || normalizedFile.endsWith("application.yaml")
+                    || normalizedFile.endsWith("application.properties")) {
 
-    result.setSpringBootProject(true);
-}
+                result.setSpringBootProject(true);
+            }
+
+            // README
+            if (normalizedFile.equals("readme")
+                    || normalizedFile.equals("readme.md")
+                    || normalizedFile.equals("readme.txt")
+                    || normalizedFile.equals("readme.rst")) {
+
+                result.setHasReadme(true);
+            }
+
+            // CI/CD
+            if (normalizedFile.startsWith(".github/workflows/")
+                    && (normalizedFile.endsWith(".yml")
+                    || normalizedFile.endsWith(".yaml"))) {
+
+                result.setHasCiCd(true);
+            }
+
+            if (normalizedFile.equals(".gitlab-ci.yml")
+                    || normalizedFile.endsWith("/jenkinsfile")
+                    || normalizedFile.equals("jenkinsfile")
+                    || normalizedFile.startsWith(".circleci/")) {
+
+                result.setHasCiCd(true);
+            }
+
+            // DOCUMENTATION
+            if (normalizedFile.startsWith("docs/")
+                    || normalizedFile.contains("/docs/")
+                    || normalizedFile.startsWith("documentation/")
+                    || normalizedFile.contains("/documentation/")) {
+
+                result.setHasDocumentation(true);
+            }
+
+            // LICENSE
+            String fileNameOnly =
+                    normalizedFile.contains("/")
+                            ? normalizedFile.substring(
+                                    normalizedFile.lastIndexOf("/") + 1)
+                            : normalizedFile;
+
+            if (fileNameOnly.equals("license")
+                    || fileNameOnly.equals("license.md")
+                    || fileNameOnly.equals("license.txt")
+                    || fileNameOnly.equals("licence")
+                    || fileNameOnly.equals("licence.md")
+                    || fileNameOnly.equals("licence.txt")) {
+
+                result.setHasLicense(true);
+            }
         }
 
         return result;

@@ -463,6 +463,100 @@ function App() {
   </div>
 
 </div>
+<div className="codebase-card">
+  <div className="codebase-header">
+    <div>
+      <h3>🧠 Codebase Intelligence</h3>
+      <p>Structural analysis of the repository source code</p>
+    </div>
+
+    <div className="project-size-badge">
+      {result.javaFileCount >= 100
+        ? "🔴 Large Codebase"
+        : result.javaFileCount >= 30
+        ? "🟡 Medium Codebase"
+        : "🟢 Small Codebase"}
+    </div>
+  </div>
+
+  <div className="codebase-grid">
+
+    <div className="codebase-item">
+      <span className="codebase-icon">☕</span>
+      <div>
+        <strong>{result.javaFileCount}</strong>
+        <p>Java Files</p>
+      </div>
+    </div>
+
+    <div className="codebase-item">
+      <span className="codebase-icon">🧪</span>
+      <div>
+        <strong>{result.testFileCount}</strong>
+        <p>Test Files</p>
+      </div>
+    </div>
+
+    <div className="codebase-item">
+      <span className="codebase-icon">🎮</span>
+      <div>
+        <strong>{result.controllerCount}</strong>
+        <p>Controllers</p>
+      </div>
+    </div>
+
+    <div className="codebase-item">
+      <span className="codebase-icon">⚙️</span>
+      <div>
+        <strong>{result.serviceCount}</strong>
+        <p>Services</p>
+      </div>
+    </div>
+
+    <div className="codebase-item">
+      <span className="codebase-icon">🗄️</span>
+      <div>
+        <strong>{result.repositoryCount}</strong>
+        <p>Repositories</p>
+      </div>
+    </div>
+
+    <div className="codebase-item">
+      <span className="codebase-icon">📦</span>
+      <div>
+        <strong>{result.entityCount}</strong>
+        <p>Entities / Models</p>
+      </div>
+    </div>
+
+    <div className="codebase-item">
+      <span className="codebase-icon">🔧</span>
+      <div>
+        <strong>{result.configurationCount}</strong>
+        <p>Configuration</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div className="architecture-insight">
+    <span>🏗️</span>
+
+    <div>
+      <strong>Detected Architecture</strong>
+
+      <p>
+        {result.controllerCount > 0 &&
+        result.serviceCount > 0 &&
+        result.repositoryCount > 0
+          ? "Layered architecture detected: Controller → Service → Repository"
+          : result.controllerCount > 0 && result.repositoryCount > 0
+          ? "Controller and Repository layers detected"
+          : "No standard layered architecture confidently detected"}
+      </p>
+    </div>
+  </div>
+</div>
 <div className="analysis-overview">
 
   <div className="strengths-card">

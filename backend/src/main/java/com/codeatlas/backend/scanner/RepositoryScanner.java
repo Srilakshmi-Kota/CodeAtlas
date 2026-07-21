@@ -8,118 +8,174 @@ public class RepositoryScanner {
 
         ScannerResult result = new ScannerResult();
 
+        int javaFileCount = 0;
+        int controllerCount = 0;
+        int serviceCount = 0;
+        int repositoryCount = 0;
+        int entityCount = 0;
+        int configurationCount = 0;
+        int testFileCount = 0;
+
         for (String file : fileNames) {
 
             if (file == null) {
                 continue;
             }
 
-            String normalizedFile = file
-                    .replace("\\", "/")
-                    .toLowerCase();
+            // Normalize path so detection works consistently
+            String normalizedPath = file.replace("\\", "/");
+            String lowerPath = normalizedPath.toLowerCase();
 
-            // JAVA
-            if (normalizedFile.endsWith(".java")) {
-                result.setJavaProject(true);
-            }
+            // -----------------------------
+            // Build system detection
+            // -----------------------------
 
-            // MAVEN
-            if (normalizedFile.equals("pom.xml")
-                    || normalizedFile.endsWith("/pom.xml")) {
-
+            if (lowerPath.endsWith("pom.xml")) {
                 result.setJavaProject(true);
                 result.setMavenProject(true);
             }
 
-            // GRADLE
-            if (normalizedFile.equals("build.gradle")
-                    || normalizedFile.equals("build.gradle.kts")
-                    || normalizedFile.endsWith("/build.gradle")
-                    || normalizedFile.endsWith("/build.gradle.kts")) {
+            if (lowerPath.endsWith("build.gradle")
+                    || lowerPath.endsWith("build.gradle.kts")) {
 
                 result.setJavaProject(true);
                 result.setGradleProject(true);
             }
 
-            // DOCKER
-            if (normalizedFile.equals("dockerfile")
-                    || normalizedFile.endsWith("/dockerfile")
-                    || normalizedFile.equals("docker-compose.yml")
-                    || normalizedFile.equals("docker-compose.yaml")
-                    || normalizedFile.endsWith("/docker-compose.yml")
-                    || normalizedFile.endsWith("/docker-compose.yaml")) {
+            // -----------------------------
+            // Docker detection
+            // -----------------------------
+
+            if (lowerPath.endsWith("dockerfile")
+                    || lowerPath.endsWith("docker-compose.yml")
+                    || lowerPath.endsWith("docker-compose.yaml")) {
 
                 result.setDockerProject(true);
             }
 
-            // TESTS
-            if (normalizedFile.startsWith("src/test/")
-                    || normalizedFile.contains("/src/test/")
-                    || normalizedFile.startsWith("test/")
-                    || normalizedFile.startsWith("tests/")) {
+            // -----------------------------
+            // Spring Boot configuration
+            // -----------------------------
 
-                result.setHasTests(true);
-            }
-
-            // SPRING BOOT SIGNALS
-            if (normalizedFile.endsWith("application.yml")
-                    || normalizedFile.endsWith("application.yaml")
-                    || normalizedFile.endsWith("application.properties")) {
+            if (lowerPath.endsWith("application.yml")
+                    || lowerPath.endsWith("application.yaml")
+                    || lowerPath.endsWith("application.properties")) {
 
                 result.setSpringBootProject(true);
             }
 
-            // README
-            if (normalizedFile.equals("readme")
-                    || normalizedFile.equals("readme.md")
-                    || normalizedFile.equals("readme.txt")
-                    || normalizedFile.equals("readme.rst")) {
+            // -----------------------------
+            // README detection
+            // -----------------------------
+
+            if (lowerPath.endsWith("readme.md")
+                    || lowerPath.endsWith("readme")) {
 
                 result.setHasReadme(true);
             }
 
-            // CI/CD
-            if (normalizedFile.startsWith(".github/workflows/")
-                    && (normalizedFile.endsWith(".yml")
-                    || normalizedFile.endsWith(".yaml"))) {
+            // -----------------------------
+            // License detection
+            // -----------------------------
+
+            if (lowerPath.endsWith("license")
+                    || lowerPath.endsWith("license.md")
+                    || lowerPath.endsWith("license.txt")) {
+
+                result.setHasLicense(true);
+            }
+
+            // -----------------------------
+            // CI/CD detection
+            // -----------------------------
+
+            if (lowerPath.contains(".github/workflows/")
+                    || lowerPath.endsWith("jenkinsfile")
+                    || lowerPath.endsWith(".gitlab-ci.yml")) {
 
                 result.setHasCiCd(true);
             }
 
-            if (normalizedFile.equals(".gitlab-ci.yml")
-                    || normalizedFile.endsWith("/jenkinsfile")
-                    || normalizedFile.equals("jenkinsfile")
-                    || normalizedFile.startsWith(".circleci/")) {
+            // -----------------------------
+            // Documentation detection
+            // -----------------------------
 
-                result.setHasCiCd(true);
-            }
-
-            // DOCUMENTATION
-            if (normalizedFile.startsWith("docs/")
-                    || normalizedFile.contains("/docs/")
-                    || normalizedFile.startsWith("documentation/")
-                    || normalizedFile.contains("/documentation/")) {
+            if (lowerPath.startsWith("docs/")
+                    || lowerPath.contains("/docs/")) {
 
                 result.setHasDocumentation(true);
             }
 
-            // LICENSE
-            String fileNameOnly =
-                    normalizedFile.contains("/")
-                            ? normalizedFile.substring(
-                                    normalizedFile.lastIndexOf("/") + 1)
-                            : normalizedFile;
+            // -----------------------------
+            // Java file analysis
+            // -----------------------------
 
-            if (fileNameOnly.equals("license")
-                    || fileNameOnly.equals("license.md")
-                    || fileNameOnly.equals("license.txt")
-                    || fileNameOnly.equals("licence")
-                    || fileNameOnly.equals("licence.md")
-                    || fileNameOnly.equals("licence.txt")) {
+            if (lowerPath.endsWith(".java")) {
 
-                result.setHasLicense(true);
+                result.setJavaProject(true);
+                javaFileCount++;
+
+                // Test files
+                if (lowerPath.contains("src/test/")
+                        || lowerPath.contains("/test/")
+                        || lowerPath.endsWith("test.java")
+                        || lowerPath.endsWith("tests.java")) {
+
+                    testFileCount++;
+                    result.setHasTests(true);
+                }
+
+                // Controller detection
+                if (lowerPath.contains("/controller/")
+                        || lowerPath.endsWith("controller.java")) {
+
+                    controllerCount++;
+                }
+
+                // Service detection
+                if (lowerPath.contains("/service/")
+                        || lowerPath.endsWith("service.java")
+                        || lowerPath.endsWith("serviceimpl.java")) {
+
+                    serviceCount++;
+                }
+
+                // Repository detection
+                if (lowerPath.contains("/repository/")
+                        || lowerPath.endsWith("repository.java")
+                        || lowerPath.endsWith("dao.java")) {
+
+                    repositoryCount++;
+                }
+
+                // Entity / Model detection
+                if (lowerPath.contains("/entity/")
+                        || lowerPath.contains("/model/")
+                        || lowerPath.endsWith("entity.java")) {
+
+                    entityCount++;
+                }
+
+                // Configuration detection
+                if (lowerPath.contains("/config/")
+                        || lowerPath.contains("/configuration/")
+                        || lowerPath.endsWith("config.java")
+                        || lowerPath.endsWith("configuration.java")) {
+
+                    configurationCount++;
+                }
             }
         }
+
+        // Store calculated metrics
+
+        result.setJavaFileCount(javaFileCount);
+        result.setControllerCount(controllerCount);
+        result.setServiceCount(serviceCount);
+        result.setRepositoryCount(repositoryCount);
+        result.setEntityCount(entityCount);
+        result.setConfigurationCount(configurationCount);
+        result.setTestFileCount(testFileCount);
 
         return result;
     }

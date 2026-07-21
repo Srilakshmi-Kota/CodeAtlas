@@ -361,7 +361,14 @@ score = Math.min(score, 100);
         repositoryResponse.setAiRecommendations(
                 recommendations
         );
-
+        // Codebase Intelligence
+repositoryResponse.setJavaFileCount(result.getJavaFileCount());
+repositoryResponse.setControllerCount(result.getControllerCount());
+repositoryResponse.setServiceCount(result.getServiceCount());
+repositoryResponse.setRepositoryCount(result.getRepositoryCount());
+repositoryResponse.setEntityCount(result.getEntityCount());
+repositoryResponse.setConfigurationCount(result.getConfigurationCount());
+repositoryResponse.setTestFileCount(result.getTestFileCount());
         return repositoryResponse;
     }
 }

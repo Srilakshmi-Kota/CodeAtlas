@@ -23,6 +23,13 @@ private String ownerAvatar;
 private int forks;
 private int watchers;
 private String aiRecommendations;
+private int javaFileCount;
+private int controllerCount;
+private int serviceCount;
+private int repositoryCount;
+private int entityCount;
+private int configurationCount;
+private int testFileCount;
 public int getForks() {
     return forks;
 }
@@ -217,5 +224,60 @@ public boolean isHasLicense() {
 
 public void setHasLicense(boolean hasLicense) {
     this.hasLicense = hasLicense;
+}
+public int getJavaFileCount() {
+    return javaFileCount;
+}
+
+public void setJavaFileCount(int javaFileCount) {
+    this.javaFileCount = javaFileCount;
+}
+
+public int getControllerCount() {
+    return controllerCount;
+}
+
+public void setControllerCount(int controllerCount) {
+    this.controllerCount = controllerCount;
+}
+
+public int getServiceCount() {
+    return serviceCount;
+}
+
+public void setServiceCount(int serviceCount) {
+    this.serviceCount = serviceCount;
+}
+
+public int getRepositoryCount() {
+    return repositoryCount;
+}
+
+public void setRepositoryCount(int repositoryCount) {
+    this.repositoryCount = repositoryCount;
+}
+
+public int getEntityCount() {
+    return entityCount;
+}
+
+public void setEntityCount(int entityCount) {
+    this.entityCount = entityCount;
+}
+
+public int getConfigurationCount() {
+    return configurationCount;
+}
+
+public void setConfigurationCount(int configurationCount) {
+    this.configurationCount = configurationCount;
+}
+
+public int getTestFileCount() {
+    return testFileCount;
+}
+
+public void setTestFileCount(int testFileCount) {
+    this.testFileCount = testFileCount;
 }
 }

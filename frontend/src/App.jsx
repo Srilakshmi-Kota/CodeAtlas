@@ -556,6 +556,84 @@ function App() {
       </p>
     </div>
   </div>
+  {/* Technology Stack */}
+<div className="tech-stack-card">
+
+  <div className="tech-stack-header">
+    <div>
+      <h3>🧩 Technology Stack</h3>
+      <p>Technologies and frameworks detected from the repository</p>
+    </div>
+  </div>
+
+  <div className="tech-stack-grid">
+
+    <div className="tech-stack-item">
+      <span>☕</span>
+      <div>
+        <small>Java Version</small>
+        <strong>{result.javaVersion || "Not detected"}</strong>
+      </div>
+    </div>
+
+    <div className="tech-stack-item">
+      <span>🌱</span>
+      <div>
+        <small>Spring Boot</small>
+        <strong>{result.springBootVersion || "Not detected"}</strong>
+      </div>
+    </div>
+
+    <div className="tech-stack-item">
+      <span>🔨</span>
+      <div>
+        <small>Build Tool</small>
+        <strong>{result.buildTool || "Not detected"}</strong>
+      </div>
+    </div>
+
+    <div className="tech-stack-item">
+      <span>🗄️</span>
+      <div>
+        <small>Database</small>
+        <strong>{result.database || "Not detected"}</strong>
+      </div>
+    </div>
+
+    <div className="tech-stack-item">
+      <span>📦</span>
+      <div>
+        <small>ORM / Data Access</small>
+        <strong>{result.ormFramework || "Not detected"}</strong>
+      </div>
+    </div>
+
+    <div className="tech-stack-item">
+      <span>🧪</span>
+      <div>
+        <small>Testing</small>
+        <strong>{result.testingFramework || "Not detected"}</strong>
+      </div>
+    </div>
+
+    <div className="tech-stack-item">
+      <span>🔐</span>
+      <div>
+        <small>Security</small>
+        <strong>{result.securityFramework || "Not detected"}</strong>
+      </div>
+    </div>
+
+    <div className="tech-stack-item">
+      <span>📘</span>
+      <div>
+        <small>API Documentation</small>
+        <strong>{result.documentationFramework || "Not detected"}</strong>
+      </div>
+    </div>
+
+  </div>
+</div>
 </div>
 <div className="analysis-overview">
 

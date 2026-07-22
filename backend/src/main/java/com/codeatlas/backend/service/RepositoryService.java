@@ -1,6 +1,12 @@
 package com.codeatlas.backend.service;
 
+import java.io.ByteArrayInputStream;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +16,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 import com.codeatlas.backend.ai.GeminiService;
 import com.codeatlas.backend.dto.GitHubRepositoryResponse;
@@ -19,7 +27,6 @@ import com.codeatlas.backend.github.GitHubContentService;
 import com.codeatlas.backend.github.GitHubService;
 import com.codeatlas.backend.scanner.RepositoryScanner;
 import com.codeatlas.backend.scanner.ScannerResult;
-
 @Service
 public class RepositoryService {
 
@@ -160,19 +167,134 @@ public class RepositoryService {
                         owner,
                         repository
                 );
+        String gradleContent =
+        gitHubContentService.getBuildGradleFile(
+                owner,
+                repository
+        );
+        String buildContent =
+        (pomContent == null ? "" : pomContent.toLowerCase())
+        + "\n"
+        + (gradleContent == null ? "" : gradleContent.toLowerCase());
+        if (pomContent != null && !pomContent.isBlank()) {
+    result.setBuildTool("Maven");
+}
+
+if (gradleContent != null && !gradleContent.isBlank()) {
+
+    result.setBuildTool(
+            result.getBuildTool() == null
+                    ? "Gradle"
+                    : "Maven + Gradle"
+    );
+}
+if (buildContent.contains("mysql")) {
+
+    result.setDatabase("MySQL");
+
+} else if (buildContent.contains("postgresql")) {
+
+    result.setDatabase("PostgreSQL");
+
+} else if (buildContent.contains("mongodb")) {
+
+    result.setDatabase("MongoDB");
+}
+if (buildContent.contains("spring-boot-starter-security")) {
+
+    result.setSecurityFramework("Spring Security");
+}
+if (buildContent.contains("spring-boot-starter-data-jpa")) {
+
+    result.setOrmFramework("Spring Data JPA");
+}
+if (buildContent.contains("junit")) {
+
+    result.setTestingFramework("JUnit");
+}
+
+if (buildContent.contains("mockito")) {
+
+    if (result.getTestingFramework() == null) {
+
+        result.setTestingFramework("Mockito");
+
+    } else {
+
+        result.setTestingFramework(
+                result.getTestingFramework() + " + Mockito"
+        );
+    }
+}
+if (buildContent.contains("springdoc")
+        || buildContent.contains("swagger")) {
+
+    result.setDocumentationFramework("Swagger/OpenAPI");
+}
 
         if (pomContent != null
                 && pomContent.contains("spring-boot")) {
 
             result.setSpringBootProject(true);
         }
+        System.out.println("Step 2");
+        try {
+
+    if (pomContent != null && !pomContent.isBlank()) {
+
+        DocumentBuilderFactory factory =
+                DocumentBuilderFactory.newInstance();
+
+        DocumentBuilder builder =
+                factory.newDocumentBuilder();
+
+        Document document =
+                builder.parse(
+                        new ByteArrayInputStream(
+                                pomContent.getBytes()
+                        )
+                );
+
+        document.getDocumentElement().normalize();
+
+        NodeList javaVersionNodes =
+                document.getElementsByTagName("java.version");
+
+        if (javaVersionNodes.getLength() > 0) {
+
+            result.setJavaVersion(
+                    javaVersionNodes
+                            .item(0)
+                            .getTextContent()
+            );
+        }
+
+    }
+
+} catch (Exception e) {
+
+    e.printStackTrace();
+}
+Pattern springPattern = Pattern.compile(
+        "<version>(.*?)</version>"
+);
+
+Matcher springMatcher = springPattern.matcher(pomContent == null ? "" : pomContent);
+
+if (springMatcher.find()
+        && (pomContent.contains("spring-boot-starter-parent")
+        || pomContent.contains("spring-boot-dependencies"))) {
+
+    result.setSpringBootVersion(springMatcher.group(1));
+}
+System.out.println("Step 2");
 
         /*
          * ==============================
          * GENERATE AI ANALYSIS
          * ==============================
          */
-
+        System.out.println("Step 3");
         System.out.println("Before Gemini");
 
         String summary =
@@ -369,6 +491,15 @@ repositoryResponse.setRepositoryCount(result.getRepositoryCount());
 repositoryResponse.setEntityCount(result.getEntityCount());
 repositoryResponse.setConfigurationCount(result.getConfigurationCount());
 repositoryResponse.setTestFileCount(result.getTestFileCount());
+repositoryResponse.setBuildTool(result.getBuildTool());
+repositoryResponse.setJavaVersion(result.getJavaVersion());
+repositoryResponse.setSpringBootVersion(result.getSpringBootVersion());
+repositoryResponse.setDatabase(result.getDatabase());
+repositoryResponse.setSecurityFramework(result.getSecurityFramework());
+repositoryResponse.setTestingFramework(result.getTestingFramework());
+repositoryResponse.setDocumentationFramework(result.getDocumentationFramework());
+repositoryResponse.setOrmFramework(result.getOrmFramework());
+repositoryResponse.setBuildPlugins(result.getBuildPlugins());
         return repositoryResponse;
     }
 }

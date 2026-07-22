@@ -1,5 +1,7 @@
 package com.codeatlas.backend.dto;
 
+import java.util.List;
+
 public class RepositoryResponse {
 
     private String owner;
@@ -30,6 +32,15 @@ private int repositoryCount;
 private int entityCount;
 private int configurationCount;
 private int testFileCount;
+private String buildTool;
+private String javaVersion;
+private String springBootVersion;
+private String database;
+private String securityFramework;
+private String testingFramework;
+private String documentationFramework;
+private String ormFramework;
+private List<String> buildPlugins;
 public int getForks() {
     return forks;
 }
@@ -280,4 +291,76 @@ public int getTestFileCount() {
 public void setTestFileCount(int testFileCount) {
     this.testFileCount = testFileCount;
 }
+
+    public String getBuildTool() {
+        return buildTool;
+    }
+
+    public void setBuildTool(String buildTool) {
+        this.buildTool = buildTool;
+    }
+
+    public String getJavaVersion() {
+        return javaVersion;
+    }
+
+    public void setJavaVersion(String javaVersion) {
+        this.javaVersion = javaVersion;
+    }
+
+    public String getSpringBootVersion() {
+        return springBootVersion;
+    }
+
+    public void setSpringBootVersion(String springBootVersion) {
+        this.springBootVersion = springBootVersion;
+    }
+
+    public String getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(String database) {
+        this.database = database;
+    }
+
+    public String getSecurityFramework() {
+        return securityFramework;
+    }
+
+    public void setSecurityFramework(String securityFramework) {
+        this.securityFramework = securityFramework;
+    }
+
+    public String getTestingFramework() {
+        return testingFramework;
+    }
+
+    public void setTestingFramework(String testingFramework) {
+        this.testingFramework = testingFramework;
+    }
+
+    public String getDocumentationFramework() {
+        return documentationFramework;
+    }
+
+    public void setDocumentationFramework(String documentationFramework) {
+        this.documentationFramework = documentationFramework;
+    }
+
+    public String getOrmFramework() {
+        return ormFramework;
+    }
+
+    public void setOrmFramework(String ormFramework) {
+        this.ormFramework = ormFramework;
+    }
+
+    public List<String> getBuildPlugins() {
+        return buildPlugins;
+    }
+
+    public void setBuildPlugins(List<String> buildPlugins) {
+        this.buildPlugins = buildPlugins;
+    }
 }

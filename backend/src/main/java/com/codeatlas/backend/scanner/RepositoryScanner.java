@@ -179,4 +179,50 @@ public class RepositoryScanner {
 
         return result;
     }
+    public void scanEndpoints(
+        List<String> controllerContents,
+        ScannerResult result) {
+
+    if (controllerContents == null || result == null) {
+        return;
+    }
+
+    int getCount = 0;
+    int postCount = 0;
+    int putCount = 0;
+    int deleteCount = 0;
+    int patchCount = 0;
+
+    for (String content : controllerContents) {
+
+        if (content == null || content.isBlank()) {
+            continue;
+        }
+
+        getCount += countOccurrences(content, "@GetMapping");
+        postCount += countOccurrences(content, "@PostMapping");
+        putCount += countOccurrences(content, "@PutMapping");
+        deleteCount += countOccurrences(content, "@DeleteMapping");
+        patchCount += countOccurrences(content, "@PatchMapping");
+    }
+
+    result.setGetEndpointCount(getCount);
+    result.setPostEndpointCount(postCount);
+    result.setPutEndpointCount(putCount);
+    result.setDeleteEndpointCount(deleteCount);
+    result.setPatchEndpointCount(patchCount);
+}
+
+private int countOccurrences(String text, String target) {
+
+    int count = 0;
+    int index = 0;
+
+    while ((index = text.indexOf(target, index)) != -1) {
+        count++;
+        index += target.length();
+    }
+
+    return count;
+}
 }

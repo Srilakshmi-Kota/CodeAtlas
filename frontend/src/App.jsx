@@ -7,11 +7,12 @@ function App() {
   const [url, setUrl] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  const [showAllDependencies, setShowAllDependencies] = useState(false);
   // =========================
   // ANALYZE REPOSITORY
   // =========================
   const analyzeRepository = async () => {
+    setShowAllDependencies(false);
     try {
       setLoading(true);
       setResult(null);
@@ -556,6 +557,361 @@ function App() {
       </p>
     </div>
   </div>
+  {/* Technology Stack */}
+<div className="tech-stack-card">
+
+  <div className="tech-stack-header">
+    <div>
+      <h3>🧩 Technology Stack</h3>
+      <p>Technologies and frameworks detected from the repository</p>
+    </div>
+  </div>
+
+  <div className="tech-stack-grid">
+
+    <div className="tech-stack-item">
+      <span>☕</span>
+      <div>
+        <small>Java Version</small>
+        <strong>{result.javaVersion || "Not detected"}</strong>
+      </div>
+    </div>
+
+    <div className="tech-stack-item">
+      <span>🌱</span>
+      <div>
+        <small>Spring Boot</small>
+        <strong>{result.springBootVersion || "Not detected"}</strong>
+      </div>
+    </div>
+
+    <div className="tech-stack-item">
+      <span>🔨</span>
+      <div>
+        <small>Build Tool</small>
+        <strong>{result.buildTool || "Not detected"}</strong>
+      </div>
+    </div>
+
+    <div className="tech-stack-item">
+      <span>🗄️</span>
+      <div>
+        <small>Database</small>
+        <strong>{result.database || "Not detected"}</strong>
+      </div>
+    </div>
+
+    <div className="tech-stack-item">
+      <span>📦</span>
+      <div>
+        <small>ORM / Data Access</small>
+        <strong>{result.ormFramework || "Not detected"}</strong>
+      </div>
+    </div>
+
+    <div className="tech-stack-item">
+      <span>🧪</span>
+      <div>
+        <small>Testing</small>
+        <strong>{result.testingFramework || "Not detected"}</strong>
+      </div>
+    </div>
+
+    <div className="tech-stack-item">
+      <span>🔐</span>
+      <div>
+        <small>Security</small>
+        <strong>{result.securityFramework || "Not detected"}</strong>
+      </div>
+    </div>
+
+    <div className="tech-stack-item">
+      <span>📘</span>
+      <div>
+        <small>API Documentation</small>
+        <strong>{result.documentationFramework || "Not detected"}</strong>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+{/* ============================= */}
+{/* DEPENDENCY INTELLIGENCE */}
+{/* ============================= */}
+
+<div className="dependency-card">
+
+  <div className="dependency-header">
+    <div>
+      <h3>📦 Dependency Intelligence</h3>
+      <p>
+        Build dependencies and project capabilities detected
+        from the repository
+      </p>
+    </div>
+
+    <div className="dependency-count-badge">
+      {result.dependencyCount || 0} Dependencies
+    </div>
+  </div>
+
+  <div className="dependency-capabilities">
+
+    <div
+      className={`dependency-capability ${
+        result.hasWebDependency ? "detected" : "missing"
+      }`}
+    >
+      <span className="dependency-icon">🌐</span>
+
+      <div>
+        <strong>Web</strong>
+        <p>
+          {result.hasWebDependency
+            ? "Web framework detected"
+            : "No web dependency detected"}
+        </p>
+      </div>
+    </div>
+
+    <div
+      className={`dependency-capability ${
+        result.hasDataDependency ? "detected" : "missing"
+      }`}
+    >
+      <span className="dependency-icon">🗄️</span>
+
+      <div>
+        <strong>Data Access</strong>
+        <p>
+          {result.hasDataDependency
+            ? "Persistence dependencies detected"
+            : "No data-access dependency detected"}
+        </p>
+      </div>
+    </div>
+
+    <div
+      className={`dependency-capability ${
+        result.hasDatabaseDriver ? "detected" : "missing"
+      }`}
+    >
+      <span className="dependency-icon">💾</span>
+
+      <div>
+        <strong>Database Drivers</strong>
+        <p>
+          {result.hasDatabaseDriver
+            ? "Database drivers detected"
+            : "No database driver detected"}
+        </p>
+      </div>
+    </div>
+
+    <div
+      className={`dependency-capability ${
+        result.hasTestingDependency ? "detected" : "missing"
+      }`}
+    >
+      <span className="dependency-icon">🧪</span>
+
+      <div>
+        <strong>Testing</strong>
+        <p>
+          {result.hasTestingDependency
+            ? "Testing dependencies detected"
+            : "No testing dependency detected"}
+        </p>
+      </div>
+    </div>
+
+    <div
+      className={`dependency-capability ${
+        result.hasSecurityDependency ? "detected" : "missing"
+      }`}
+    >
+      <span className="dependency-icon">🔐</span>
+
+      <div>
+        <strong>Security</strong>
+        <p>
+          {result.hasSecurityDependency
+            ? "Security framework detected"
+            : "No security dependency detected"}
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  {result.dependencies && result.dependencies.length > 0 && (
+
+    <div className="dependency-list-section">
+
+      <div className="dependency-list-title">
+        <strong>🔗 Key Dependencies</strong>
+
+       <span>
+  Showing{" "}
+  {showAllDependencies
+    ? result.dependencies.length
+    : Math.min(result.dependencies.length, 8)}{" "}
+  of {result.dependencyCount || result.dependencies.length}
+</span>
+      </div>
+
+     <div className="dependency-tags">
+
+  {(showAllDependencies
+    ? result.dependencies
+    : result.dependencies.slice(0, 8)
+  ).map((dependency, index) => (
+
+    <span
+      className="dependency-tag"
+      key={`${dependency}-${index}`}
+    >
+      {dependency}
+    </span>
+
+  ))}
+
+</div>
+
+{result.dependencies.length > 8 && (
+
+  <div className="dependency-expand-section">
+
+    {!showAllDependencies && (
+      <p className="dependency-more">
+        + {result.dependencies.length - 8} additional dependencies detected
+      </p>
+    )}
+
+    <button
+      type="button"
+      className="dependency-toggle-button"
+      onClick={() =>
+        setShowAllDependencies(!showAllDependencies)
+      }
+    >
+      {showAllDependencies
+        ? "Show Less"
+        : `View All ${result.dependencies.length} Dependencies`}
+    </button>
+
+  </div>
+
+)}
+
+    </div>
+
+  )}
+
+</div>
+{/* ============================= */}
+{/* API ENDPOINT INTELLIGENCE */}
+{/* ============================= */}
+
+<div className="api-card">
+
+  <div className="api-header">
+    <div>
+      <h3>🌐 API Endpoint Intelligence</h3>
+      <p>
+        REST API operations detected from repository controller source code
+      </p>
+    </div>
+
+    <div className="api-count-badge">
+      {result.totalEndpointCount || 0} Endpoints
+    </div>
+  </div>
+
+  {result.totalEndpointCount > 0 ? (
+    <>
+      <div className="api-grid">
+
+        <div className="api-item get">
+          <span className="api-method">GET</span>
+
+          <div>
+            <strong>{result.getEndpointCount || 0}</strong>
+            <p>Read Operations</p>
+          </div>
+        </div>
+
+        <div className="api-item post">
+          <span className="api-method">POST</span>
+
+          <div>
+            <strong>{result.postEndpointCount || 0}</strong>
+            <p>Create Operations</p>
+          </div>
+        </div>
+
+        <div className="api-item put">
+          <span className="api-method">PUT</span>
+
+          <div>
+            <strong>{result.putEndpointCount || 0}</strong>
+            <p>Update Operations</p>
+          </div>
+        </div>
+
+        <div className="api-item delete">
+          <span className="api-method">DELETE</span>
+
+          <div>
+            <strong>{result.deleteEndpointCount || 0}</strong>
+            <p>Delete Operations</p>
+          </div>
+        </div>
+
+        <div className="api-item patch">
+          <span className="api-method">PATCH</span>
+
+          <div>
+            <strong>{result.patchEndpointCount || 0}</strong>
+            <p>Partial Updates</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div className="api-insight">
+
+        <span>🧭</span>
+
+        <div>
+          <strong>API Architecture</strong>
+
+          <p>
+            {result.controllerCount > 0
+              ? `${result.totalEndpointCount} REST endpoints detected across ${result.controllerCount} controller${
+                  result.controllerCount === 1 ? "" : "s"
+                }.`
+              : "REST endpoints detected in the repository."}
+          </p>
+        </div>
+
+      </div>
+    </>
+  ) : (
+    <div className="api-empty">
+      <span>🔎</span>
+
+      <div>
+        <strong>No mapped REST endpoints detected</strong>
+        <p>
+          No supported Spring mapping annotations were found in the analyzed
+          controller source files.
+        </p>
+      </div>
+    </div>
+  )}
+
 </div>
 <div className="analysis-overview">
 

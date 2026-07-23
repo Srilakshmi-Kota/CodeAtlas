@@ -40,6 +40,20 @@ private String securityFramework;
 private String testingFramework;
 private String documentationFramework;
 private String ormFramework;
+private int dependencyCount;
+
+private boolean hasWebDependency;
+private boolean hasDataDependency;
+private boolean hasDatabaseDriver;
+private boolean hasTestingDependency;
+private boolean hasSecurityDependency;
+private int getEndpointCount;
+private int postEndpointCount;
+private int putEndpointCount;
+private int deleteEndpointCount;
+private int patchEndpointCount;
+private int totalEndpointCount;
+private List<String> dependencies;
 private List<String> buildPlugins;
 public int getForks() {
     return forks;
@@ -363,4 +377,106 @@ public void setTestFileCount(int testFileCount) {
     public void setBuildPlugins(List<String> buildPlugins) {
         this.buildPlugins = buildPlugins;
     }
+    public int getDependencyCount() {
+    return dependencyCount;
+}
+
+public void setDependencyCount(int dependencyCount) {
+    this.dependencyCount = dependencyCount;
+}
+
+public boolean isHasWebDependency() {
+    return hasWebDependency;
+}
+
+public void setHasWebDependency(boolean hasWebDependency) {
+    this.hasWebDependency = hasWebDependency;
+}
+
+public boolean isHasDataDependency() {
+    return hasDataDependency;
+}
+
+public void setHasDataDependency(boolean hasDataDependency) {
+    this.hasDataDependency = hasDataDependency;
+}
+
+public boolean isHasDatabaseDriver() {
+    return hasDatabaseDriver;
+}
+
+public void setHasDatabaseDriver(boolean hasDatabaseDriver) {
+    this.hasDatabaseDriver = hasDatabaseDriver;
+}
+
+public boolean isHasTestingDependency() {
+    return hasTestingDependency;
+}
+
+public void setHasTestingDependency(boolean hasTestingDependency) {
+    this.hasTestingDependency = hasTestingDependency;
+}
+
+public boolean isHasSecurityDependency() {
+    return hasSecurityDependency;
+}
+
+public void setHasSecurityDependency(boolean hasSecurityDependency) {
+    this.hasSecurityDependency = hasSecurityDependency;
+}
+
+public List<String> getDependencies() {
+    return dependencies;
+}
+
+public void setDependencies(List<String> dependencies) {
+    this.dependencies = dependencies;
+}
+public int getGetEndpointCount() {
+    return getEndpointCount;
+}
+
+public void setGetEndpointCount(int getEndpointCount) {
+    this.getEndpointCount = getEndpointCount;
+}
+
+public int getPostEndpointCount() {
+    return postEndpointCount;
+}
+
+public void setPostEndpointCount(int postEndpointCount) {
+    this.postEndpointCount = postEndpointCount;
+}
+
+public int getPutEndpointCount() {
+    return putEndpointCount;
+}
+
+public void setPutEndpointCount(int putEndpointCount) {
+    this.putEndpointCount = putEndpointCount;
+}
+
+public int getDeleteEndpointCount() {
+    return deleteEndpointCount;
+}
+
+public void setDeleteEndpointCount(int deleteEndpointCount) {
+    this.deleteEndpointCount = deleteEndpointCount;
+}
+
+public int getPatchEndpointCount() {
+    return patchEndpointCount;
+}
+
+public void setPatchEndpointCount(int patchEndpointCount) {
+    this.patchEndpointCount = patchEndpointCount;
+}
+
+public int getTotalEndpointCount() {
+    return totalEndpointCount;
+}
+
+public void setTotalEndpointCount(int totalEndpointCount) {
+    this.totalEndpointCount = totalEndpointCount;
+}
 }

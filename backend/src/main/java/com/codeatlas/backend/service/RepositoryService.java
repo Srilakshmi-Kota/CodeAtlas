@@ -1,7 +1,9 @@
 package com.codeatlas.backend.service;
 
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.codeatlas.backend.ai.GeminiService;
@@ -155,6 +159,56 @@ public class RepositoryService {
                 repositoryScanner.scan(
                         Arrays.asList(files)
                 );
+        /*
+ * ==============================
+ * API ENDPOINT INTELLIGENCE
+ * ==============================
+ */
+
+List<String> controllerContents =
+        gitHubService.getControllerContents(
+                owner,
+                repository
+        );
+
+repositoryScanner.scanEndpoints(
+        controllerContents,
+        result
+);
+
+System.out.println("===== API ENDPOINT ANALYSIS =====");
+
+System.out.println(
+        "GET Endpoints    : "
+                + result.getGetEndpointCount()
+);
+
+System.out.println(
+        "POST Endpoints   : "
+                + result.getPostEndpointCount()
+);
+
+System.out.println(
+        "PUT Endpoints    : "
+                + result.getPutEndpointCount()
+);
+
+System.out.println(
+        "DELETE Endpoints : "
+                + result.getDeleteEndpointCount()
+);
+
+System.out.println(
+        "PATCH Endpoints  : "
+                + result.getPatchEndpointCount()
+);
+
+System.out.println(
+        "TOTAL Endpoints  : "
+                + result.getTotalEndpointCount()
+);
+
+System.out.println("===============================");
 
         /*
          * ==============================
@@ -256,6 +310,88 @@ if (buildContent.contains("springdoc")
                 );
 
         document.getDocumentElement().normalize();
+        // =============================================
+// MAVEN DEPENDENCY INTELLIGENCE
+// =============================================
+
+List<String> detectedDependencies = new ArrayList<>();
+
+NodeList dependencyNodes =
+        document.getElementsByTagName("dependency");
+
+for (int i = 0; i < dependencyNodes.getLength(); i++) {
+
+    Node dependencyNode = dependencyNodes.item(i);
+
+    if (dependencyNode.getNodeType() != Node.ELEMENT_NODE) {
+        continue;
+    }
+
+    Element dependencyElement =
+            (Element) dependencyNode;
+
+    NodeList artifactNodes =
+            dependencyElement.getElementsByTagName("artifactId");
+
+    if (artifactNodes.getLength() == 0) {
+        continue;
+    }
+
+    String artifactId =
+            artifactNodes.item(0)
+                    .getTextContent()
+                    .trim();
+
+    if (artifactId.isBlank()) {
+        continue;
+    }
+
+    detectedDependencies.add(artifactId);
+
+    String dependency =
+            artifactId.toLowerCase();
+
+    // Web
+    if (dependency.contains("spring-boot-starter-web")
+            || dependency.contains("spring-web")) {
+
+        result.setHasWebDependency(true);
+    }
+
+    // Data / persistence
+    if (dependency.contains("spring-boot-starter-data")
+            || dependency.contains("spring-data")) {
+
+        result.setHasDataDependency(true);
+    }
+
+    // Database drivers
+    if (dependency.contains("mysql")
+            || dependency.contains("postgresql")
+            || dependency.contains("mongodb")
+            || dependency.contains("h2")) {
+
+        result.setHasDatabaseDriver(true);
+    }
+
+    // Testing
+    if (dependency.contains("test")
+            || dependency.contains("junit")
+            || dependency.contains("mockito")) {
+
+        result.setHasTestingDependency(true);
+    }
+
+    // Security
+    if (dependency.contains("spring-security")
+            || dependency.contains("spring-boot-starter-security")) {
+
+        result.setHasSecurityDependency(true);
+    }
+}
+
+result.setDependencies(detectedDependencies);
+result.setDependencyCount(detectedDependencies.size());
 
         NodeList javaVersionNodes =
                 document.getElementsByTagName("java.version");
@@ -500,6 +636,58 @@ repositoryResponse.setTestingFramework(result.getTestingFramework());
 repositoryResponse.setDocumentationFramework(result.getDocumentationFramework());
 repositoryResponse.setOrmFramework(result.getOrmFramework());
 repositoryResponse.setBuildPlugins(result.getBuildPlugins());
+// Dependency Intelligence
+repositoryResponse.setDependencyCount(
+        result.getDependencyCount()
+);
+
+repositoryResponse.setDependencies(
+        result.getDependencies()
+);
+
+repositoryResponse.setHasWebDependency(
+        result.isHasWebDependency()
+);
+
+repositoryResponse.setHasDataDependency(
+        result.isHasDataDependency()
+);
+
+repositoryResponse.setHasDatabaseDriver(
+        result.isHasDatabaseDriver()
+);
+
+repositoryResponse.setHasTestingDependency(
+        result.isHasTestingDependency()
+);
+
+repositoryResponse.setHasSecurityDependency(
+        result.isHasSecurityDependency()
+);
+// API Endpoint Intelligence
+repositoryResponse.setGetEndpointCount(
+        result.getGetEndpointCount()
+);
+
+repositoryResponse.setPostEndpointCount(
+        result.getPostEndpointCount()
+);
+
+repositoryResponse.setPutEndpointCount(
+        result.getPutEndpointCount()
+);
+
+repositoryResponse.setDeleteEndpointCount(
+        result.getDeleteEndpointCount()
+);
+
+repositoryResponse.setPatchEndpointCount(
+        result.getPatchEndpointCount()
+);
+
+repositoryResponse.setTotalEndpointCount(
+        result.getTotalEndpointCount()
+);
         return repositoryResponse;
     }
 }

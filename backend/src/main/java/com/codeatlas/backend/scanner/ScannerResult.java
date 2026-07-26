@@ -43,6 +43,7 @@ private int postEndpointCount;
 private int putEndpointCount;
 private int deleteEndpointCount;
 private int patchEndpointCount;
+private List<ApiEndpoint> apiEndpoints = new ArrayList<>();
 private List<String> dependencies = new ArrayList<>();
 private List<String> buildPlugins = new ArrayList<>();
     public ScannerResult() {
@@ -361,5 +362,14 @@ public int getTotalEndpointCount() {
             + putEndpointCount
             + deleteEndpointCount
             + patchEndpointCount;
+}
+public List<ApiEndpoint> getApiEndpoints() {
+    return apiEndpoints;
+}
+
+public void setApiEndpoints(
+        List<ApiEndpoint> apiEndpoints) {
+
+    this.apiEndpoints = apiEndpoints;
 }
 }

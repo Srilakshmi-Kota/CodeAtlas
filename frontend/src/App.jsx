@@ -8,6 +8,7 @@ function App() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showAllDependencies, setShowAllDependencies] = useState(false);
+  const [showAllEndpoints, setShowAllEndpoints] = useState(false);
   // =========================
   // ANALYZE REPOSITORY
   // =========================
@@ -911,7 +912,64 @@ function App() {
       </div>
     </div>
   )}
+{result.apiEndpoints && result.apiEndpoints.length > 0 && (
+  <div className="endpoint-list-section">
 
+    <div className="endpoint-list-header">
+      <strong>🔗 Detected API Routes</strong>
+
+      <span>
+        Showing{" "}
+        {showAllEndpoints
+          ? result.apiEndpoints.length
+          : Math.min(result.apiEndpoints.length, 6)}{" "}
+        of {result.apiEndpoints.length}
+      </span>
+    </div>
+
+    <div className="endpoint-route-list">
+
+      {(showAllEndpoints
+        ? result.apiEndpoints
+        : result.apiEndpoints.slice(0, 6)
+      ).map((endpoint, index) => (
+
+        <div
+          className="endpoint-route"
+          key={`${endpoint.method}-${endpoint.path}-${index}`}
+        >
+
+          <span
+            className={`endpoint-method ${endpoint.method?.toLowerCase()}`}
+          >
+            {endpoint.method}
+          </span>
+
+          <code className="endpoint-path">
+            {endpoint.path}
+          </code>
+
+        </div>
+
+      ))}
+
+    </div>
+
+    {result.apiEndpoints.length > 6 && (
+      <button
+        className="endpoint-toggle-button"
+        onClick={() =>
+          setShowAllEndpoints(!showAllEndpoints)
+        }
+      >
+        {showAllEndpoints
+          ? "Show Less"
+          : `View All ${result.apiEndpoints.length} Endpoints`}
+      </button>
+    )}
+
+  </div>
+)}
 </div>
 <div className="analysis-overview">
 

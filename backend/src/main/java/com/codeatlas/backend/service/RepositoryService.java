@@ -29,6 +29,7 @@ import com.codeatlas.backend.dto.RepositoryRequest;
 import com.codeatlas.backend.dto.RepositoryResponse;
 import com.codeatlas.backend.github.GitHubContentService;
 import com.codeatlas.backend.github.GitHubService;
+import com.codeatlas.backend.scanner.ApiEndpoint;
 import com.codeatlas.backend.scanner.RepositoryScanner;
 import com.codeatlas.backend.scanner.ScannerResult;
 @Service
@@ -207,7 +208,18 @@ System.out.println(
         "TOTAL Endpoints  : "
                 + result.getTotalEndpointCount()
 );
+System.out.println("\n===== DETECTED API ROUTES =====");
 
+for (ApiEndpoint endpoint : result.getApiEndpoints()) {
+
+    System.out.println(
+            endpoint.getMethod()
+                    + "  "
+                    + endpoint.getPath()
+    );
+}
+
+System.out.println("==============================");
 System.out.println("===============================");
 
         /*
@@ -687,6 +699,9 @@ repositoryResponse.setPatchEndpointCount(
 
 repositoryResponse.setTotalEndpointCount(
         result.getTotalEndpointCount()
+);
+repositoryResponse.setApiEndpoints(
+        result.getApiEndpoints()
 );
         return repositoryResponse;
     }

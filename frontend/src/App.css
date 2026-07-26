@@ -913,4 +913,120 @@
     flex-direction: column;
   }
 }
+/* ========================================
+   API ENDPOINT ROUTE LIST
+======================================== */
+
+.endpoint-list-section {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #334155;
+}
+
+.endpoint-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.endpoint-list-header strong {
+  color: #f8fafc;
+  font-size: 14px;
+}
+
+.endpoint-list-header span {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+.endpoint-route-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.endpoint-route {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px 12px;
+
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 7px;
+}
+
+.endpoint-method {
+  min-width: 58px;
+
+  padding: 4px 7px;
+  border-radius: 4px;
+
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.endpoint-method.get {
+  color: #6ee7b7;
+  background: rgba(16, 185, 129, 0.16);
+}
+
+.endpoint-method.post {
+  color: #93c5fd;
+  background: rgba(59, 130, 246, 0.16);
+}
+
+.endpoint-method.put {
+  color: #fcd34d;
+  background: rgba(245, 158, 11, 0.16);
+}
+
+.endpoint-method.delete {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.16);
+}
+
+.endpoint-method.patch {
+  color: #c4b5fd;
+  background: rgba(139, 92, 246, 0.16);
+}
+
+.endpoint-path {
+  flex: 1;
+
+  color: #cbd5e1;
+  font-size: 12px;
+
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+.endpoint-toggle-button {
+  display: block;
+
+  margin: 14px auto 0;
+  padding: 7px 14px;
+
+  border: 1px solid #3b82f6;
+  border-radius: 6px;
+
+  background: #2563eb;
+  color: white;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.endpoint-toggle-button:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
 }

@@ -2,6 +2,7 @@ package com.codeatlas.backend.dto;
 
 import java.util.List;
 
+import com.codeatlas.backend.scanner.ApiEndpoint;
 public class RepositoryResponse {
 
     private String owner;
@@ -55,6 +56,7 @@ private int patchEndpointCount;
 private int totalEndpointCount;
 private List<String> dependencies;
 private List<String> buildPlugins;
+private List<ApiEndpoint> apiEndpoints;
 public int getForks() {
     return forks;
 }
@@ -478,5 +480,12 @@ public int getTotalEndpointCount() {
 
 public void setTotalEndpointCount(int totalEndpointCount) {
     this.totalEndpointCount = totalEndpointCount;
+}
+public List<ApiEndpoint> getApiEndpoints() {
+    return apiEndpoints;
+}
+
+public void setApiEndpoints(List<ApiEndpoint> apiEndpoints) {
+    this.apiEndpoints = apiEndpoints;
 }
 }

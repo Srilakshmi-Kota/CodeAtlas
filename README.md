@@ -122,31 +122,31 @@ Analyze any public GitHub repository using AI and generate deep engineering insi
 
 ## Home Page
 
-> *(Add screenshot here)*
+> ![alt text](image.png)
 
 ---
 
 ## Repository Dashboard
 
-> *(Add screenshot here)*
+> ![alt text](image-2.png)
 
 ---
 
 ## Dependency Intelligence
 
-> *(Add screenshot here)*
+> ![alt text](image-3.png)
 
 ---
 
 ## API Endpoint Intelligence
 
-> *(Add screenshot here)*
+> ![alt text](image-4.png)
 
 ---
 
 ## PDF Report
 
-> *(Add screenshot here)*
+> ![alt text](image-5.png)
 
 ---
 

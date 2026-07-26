@@ -15,7 +15,8 @@ public class GeminiService implements AIService {
 
     @Override
     public String generateSummary(ScannerResult scannerResult) {
-
+        System.out.println("Gemini key starts with: " +
+    (apiKey == null ? "null" : apiKey.substring(0, Math.min(6, apiKey.length()))));
         Client client = Client.builder()
                 .apiKey(apiKey)
                 .build();

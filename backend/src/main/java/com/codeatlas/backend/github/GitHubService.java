@@ -1,4 +1,6 @@
 package com.codeatlas.backend.github;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -126,5 +128,85 @@ public class GitHubService {
             .stream()
             .map(GitHubTreeItem::getPath)
             .toArray(String[]::new);
+}
+public List<String> getControllerContents(
+        String owner,
+        String repository) {
+
+    List<String> controllerContents = new ArrayList<>();
+
+    String[] files = getRepositoryFiles(owner, repository);
+
+    for (String file : files) {
+
+        if (file == null) {
+            continue;
+        }
+
+        String normalizedPath = file.replace("\\", "/");
+        String lowerPath = normalizedPath.toLowerCase();
+
+        if (!lowerPath.endsWith(".java")) {
+            continue;
+        }
+
+        if (!lowerPath.contains("/controller/")
+                && !lowerPath.endsWith("controller.java")) {
+            continue;
+        }
+
+        try {
+
+            String url =
+                    "https://api.github.com/repos/"
+                            + owner
+                            + "/"
+                            + repository
+                            + "/contents/"
+                            + normalizedPath;
+
+            HttpHeaders headers = new HttpHeaders();
+
+            headers.setBearerAuth(githubToken);
+            headers.set(
+                    HttpHeaders.ACCEPT,
+                    "application/vnd.github.raw+json"
+            );
+            headers.set(
+                    "X-GitHub-Api-Version",
+                    "2022-11-28"
+            );
+            headers.set(
+                    HttpHeaders.USER_AGENT,
+                    "CodeAtlas"
+            );
+
+            HttpEntity<Void> entity =
+                    new HttpEntity<>(headers);
+
+            ResponseEntity<String> response =
+                    restTemplate.exchange(
+                            url,
+                            HttpMethod.GET,
+                            entity,
+                            String.class
+                    );
+
+            String content = response.getBody();
+
+            if (content != null && !content.isBlank()) {
+                controllerContents.add(content);
+            }
+
+        } catch (Exception e) {
+
+            System.out.println(
+                    "Could not fetch controller: "
+                            + normalizedPath
+            );
+        }
+    }
+
+    return controllerContents;
 }
 }

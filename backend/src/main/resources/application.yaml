@@ -4,6 +4,5 @@ spring:
 
 gemini:
   api-key: 
-
 github:
   token: 

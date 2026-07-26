@@ -179,4 +179,244 @@ public class RepositoryScanner {
 
         return result;
     }
+    public void scanEndpoints(
+        List<String> controllerContents,
+        ScannerResult result) {
+
+    if (controllerContents == null || result == null) {
+        return;
+    }
+
+    int getCount = 0;
+    int postCount = 0;
+    int putCount = 0;
+    int deleteCount = 0;
+    int patchCount = 0;
+
+    List<ApiEndpoint> endpoints =
+            new java.util.ArrayList<>();
+
+    for (String content : controllerContents) {
+
+        if (content == null || content.isBlank()) {
+            continue;
+        }
+
+        /*
+         * Detect controller-level base path.
+         *
+         * Example:
+         * @RequestMapping("/owners/{ownerId}")
+         */
+        String basePath =
+                extractControllerBasePath(content);
+
+        // Preserve our already-working endpoint counts
+        getCount +=
+                countOccurrences(content, "@GetMapping");
+
+        postCount +=
+                countOccurrences(content, "@PostMapping");
+
+        putCount +=
+                countOccurrences(content, "@PutMapping");
+
+        deleteCount +=
+                countOccurrences(content, "@DeleteMapping");
+
+        patchCount +=
+                countOccurrences(content, "@PatchMapping");
+
+        /*
+         * Extract method-level mappings and combine
+         * them with the controller base path.
+         */
+        extractEndpoints(
+                content,
+                "@GetMapping",
+                "GET",
+                basePath,
+                endpoints
+        );
+
+        extractEndpoints(
+                content,
+                "@PostMapping",
+                "POST",
+                basePath,
+                endpoints
+        );
+
+        extractEndpoints(
+                content,
+                "@PutMapping",
+                "PUT",
+                basePath,
+                endpoints
+        );
+
+        extractEndpoints(
+                content,
+                "@DeleteMapping",
+                "DELETE",
+                basePath,
+                endpoints
+        );
+
+        extractEndpoints(
+                content,
+                "@PatchMapping",
+                "PATCH",
+                basePath,
+                endpoints
+        );
+    }
+
+    result.setGetEndpointCount(getCount);
+    result.setPostEndpointCount(postCount);
+    result.setPutEndpointCount(putCount);
+    result.setDeleteEndpointCount(deleteCount);
+    result.setPatchEndpointCount(patchCount);
+
+    result.setApiEndpoints(endpoints);
+}
+private void extractEndpoints(
+        String content,
+        String annotation,
+        String httpMethod,
+        String basePath,
+        List<ApiEndpoint> endpoints) {
+
+    java.util.regex.Pattern pattern =
+            java.util.regex.Pattern.compile(
+                    java.util.regex.Pattern.quote(annotation)
+                            + "\\s*(?:\\(\\s*(?:value\\s*=\\s*)?"
+                            + "[\"']([^\"']*)[\"'][^)]*\\))?"
+            );
+
+    java.util.regex.Matcher matcher =
+            pattern.matcher(content);
+
+    while (matcher.find()) {
+
+        String methodPath = matcher.group(1);
+
+        if (methodPath == null) {
+            methodPath = "";
+        }
+
+        String fullPath =
+                combinePaths(
+                        basePath,
+                        methodPath
+                );
+
+        endpoints.add(
+                new ApiEndpoint(
+                        httpMethod,
+                        fullPath
+                )
+        );
+    }
+}
+
+private String extractControllerBasePath(
+        String content) {
+
+    /*
+     * Search only before the class declaration.
+     * This prevents method-level @RequestMapping
+     * annotations from being mistaken for the
+     * controller base path.
+     */
+
+    int classIndex =
+            content.indexOf("class ");
+
+    String controllerHeader =
+            classIndex >= 0
+                    ? content.substring(0, classIndex)
+                    : content;
+
+    java.util.regex.Pattern pattern =
+            java.util.regex.Pattern.compile(
+                    "@RequestMapping\\s*"
+                            + "\\(\\s*"
+                            + "(?:value\\s*=\\s*)?"
+                            + "[\"']([^\"']*)[\"']"
+            );
+
+    java.util.regex.Matcher matcher =
+            pattern.matcher(controllerHeader);
+
+    if (matcher.find()) {
+
+        String path = matcher.group(1);
+
+        if (path != null && !path.isBlank()) {
+            return path.trim();
+        }
+    }
+
+    return "";
+}
+
+
+private String combinePaths(
+        String basePath,
+        String methodPath) {
+
+    String base =
+            basePath == null
+                    ? ""
+                    : basePath.trim();
+
+    String method =
+            methodPath == null
+                    ? ""
+                    : methodPath.trim();
+
+    if (!base.isEmpty()
+            && !base.startsWith("/")) {
+
+        base = "/" + base;
+    }
+
+    if (base.endsWith("/")
+            && base.length() > 1) {
+
+        base =
+                base.substring(
+                        0,
+                        base.length() - 1
+                );
+    }
+
+    if (!method.isEmpty()
+            && !method.startsWith("/")) {
+
+        method = "/" + method;
+    }
+
+    String fullPath = base + method;
+
+    if (fullPath.isBlank()) {
+        return "/";
+    }
+
+    return fullPath;
+}
+
+private int countOccurrences(String text, String target) {
+
+    int count = 0;
+    int index = 0;
+
+    while ((index = text.indexOf(target, index)) != -1) {
+        count++;
+        index += target.length();
+    }
+
+    return count;
+}
 }

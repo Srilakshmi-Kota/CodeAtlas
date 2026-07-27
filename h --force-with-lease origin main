@@ -1,0 +1,15 @@
+* [33mddf8963[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Remove secrets and add README screenshots
+[31m|[m * [33m55d8a03[m[33m ([m[1;31morigin/main[m[33m)[m Add README screenshots
+[31m|[m[31m/[m  
+*   [33m0b0b3ff[m Merge branch 'feature/codebase-intelligence' :wq# Please enter a commit message to explain why this merge is necessary,
+[33m|[m[34m\[m  
+[33m|[m * [33m804609e[m Improve README and polish project
+[33m|[m * [33m0320c10[m Improve project README
+[33m|[m * [33me286c29[m Add dependency and API endpoint intelligence
+[33m|[m * [33m4aedafe[m Add codebase intelligence and technology stack analysis
+* [34m|[m [33m4b6ef41[m Merge pull request #2 from Srilakshmi-Kota/feature/codebase-intelligence
+[35m|[m[34m\[m[34m|[m 
+[35m|[m * [33mf9c081a[m Add Codebase Intelligence dashboard
+[35m|[m[35m/[m  
+*   [33mcec7a03[m Merge pull request #1 from Srilakshmi-Kota/feature/project-insights
+[1;31m|[m[1;32m\[m  

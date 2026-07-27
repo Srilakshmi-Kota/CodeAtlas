@@ -9,6 +9,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [showAllDependencies, setShowAllDependencies] = useState(false);
   const [showAllEndpoints, setShowAllEndpoints] = useState(false);
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   // =========================
   // ANALYZE REPOSITORY
   // =========================
@@ -19,11 +20,11 @@ function App() {
       setResult(null);
 
       const response = await axios.post(
-        "http://localhost:8080/api/repository/analyze",
-        {
-          url: url,
-        }
-      );
+  `${API_BASE_URL}/api/repository/analyze`,
+  {
+    url: url,
+  }
+);
 
       setResult(response.data);
 

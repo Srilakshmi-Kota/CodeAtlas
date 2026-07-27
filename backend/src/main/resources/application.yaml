@@ -3,6 +3,6 @@ spring:
     name: backend
 
 gemini:
-  api-key: ${GEMINI_API_KEY}
+  api-key: 
 github:
-  token: ${GITHUB_TOKEN}
+  token: 

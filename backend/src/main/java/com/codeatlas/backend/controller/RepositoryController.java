@@ -13,7 +13,10 @@ import com.codeatlas.backend.service.RepositoryService;
 
 @RestController
 @RequestMapping("/api/repository")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+    "http://localhost:5173",
+    "https://code-atlas-sand.vercel.app"
+})
 public class RepositoryController {
 
     @Autowired

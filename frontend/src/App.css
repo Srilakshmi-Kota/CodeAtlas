@@ -11,6 +11,7 @@
   &:hover {
     border-color: var(--accent-border);
   }
+
   &:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
@@ -42,8 +43,7 @@
     z-index: 1;
     top: 34px;
     height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
+    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg) scale(1.4);
   }
 
   .vite {
@@ -51,8 +51,7 @@
     top: 107px;
     height: 26px;
     width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
+    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg) scale(0.8);
   }
 }
 
@@ -75,9 +74,10 @@
   border-top: 1px solid var(--border);
   text-align: left;
 
-  & > div {
+  &>div {
     flex: 1 1 0;
     padding: 32px;
+
     @media (max-width: 1024px) {
       padding: 24px 20px;
     }
@@ -130,6 +130,7 @@
     &:hover {
       box-shadow: var(--shadow);
     }
+
     .button-icon {
       height: 18px;
       width: 18px;
@@ -156,6 +157,7 @@
 #spacer {
   height: 88px;
   border-top: 1px solid var(--border);
+
   @media (max-width: 1024px) {
     height: 48px;
   }
@@ -177,11 +179,13 @@
     left: 0;
     border-left-color: var(--border);
   }
+
   &::after {
     right: 0;
     border-right-color: var(--border);
   }
 }
+
 .loading-card {
   margin-top: 35px;
   background: #1f2937;
@@ -214,32 +218,35 @@
     transform: rotate(360deg);
   }
 }
-.health-card{
-  margin-top:30px;
-  background:#111827;
-  padding:25px;
-  border-radius:15px;
+
+.health-card {
+  margin-top: 30px;
+  background: #111827;
+  padding: 25px;
+  border-radius: 15px;
 }
 
-.progress-bar{
-  width:100%;
-  height:18px;
-  background:#2b3445;
-  border-radius:20px;
-  overflow:hidden;
-  margin:20px 0;
+.progress-bar {
+  width: 100%;
+  height: 18px;
+  background: #2b3445;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 20px 0;
 }
 
-.progress-fill{
-  width:100%;
-  height:100%;
-  background:red;
+.progress-fill {
+  width: 100%;
+  height: 100%;
+  background: red;
 }
-.health-card h2{
-  text-align:center;
-  margin-top:10px;
-  font-size:32px;
+
+.health-card h2 {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 32px;
 }
+
 .insights-card {
   margin-top: 30px;
   background: #111827;
@@ -299,6 +306,7 @@
     grid-template-columns: 1fr;
   }
 }
+
 .analysis-overview {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -343,6 +351,7 @@
     grid-template-columns: 1fr;
   }
 }
+
 .codebase-card {
   margin-top: 30px;
   background: #111827;
@@ -428,7 +437,7 @@
   text-align: left;
 }
 
-.architecture-insight > span {
+.architecture-insight>span {
   font-size: 26px;
 }
 
@@ -482,6 +491,7 @@
     grid-template-columns: 1fr !important;
   }
 }
+
 /* =========================================
    TECHNOLOGY STACK
    ========================================= */
@@ -546,14 +556,14 @@
 
 /* Emoji/icon */
 
-.tech-stack-item > span {
+.tech-stack-item>span {
   flex-shrink: 0;
   font-size: 24px;
 }
 
 /* Text container */
 
-.tech-stack-item > div {
+.tech-stack-item>div {
   min-width: 0;
 
   display: flex;
@@ -584,6 +594,7 @@
     padding: 18px;
   }
 }
+
 /* =========================================
    DEPENDENCY INTELLIGENCE
    ========================================= */
@@ -731,6 +742,7 @@
     flex-direction: column;
   }
 }
+
 /* Dependency expand / collapse */
 
 .dependency-expand-section {
@@ -765,6 +777,7 @@
 .dependency-toggle-button:active {
   transform: translateY(0);
 }
+
 /* ========================================= */
 /* API ENDPOINT INTELLIGENCE */
 /* ========================================= */
@@ -913,6 +926,7 @@
     flex-direction: column;
   }
 }
+
 /* ========================================
    API ENDPOINT ROUTE LIST
 ======================================== */
@@ -1028,5 +1042,4 @@
 .endpoint-toggle-button:hover {
   background: #1d4ed8;
   transform: translateY(-1px);
-}
 }

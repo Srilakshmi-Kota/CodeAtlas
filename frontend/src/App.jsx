@@ -10,6 +10,7 @@ function App() {
   const [showAllDependencies, setShowAllDependencies] = useState(false);
   const [showAllEndpoints, setShowAllEndpoints] = useState(false);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  
   // =========================
   // ANALYZE REPOSITORY
   // =========================
@@ -1075,6 +1076,31 @@ function App() {
 
     </div>
   );
+  <footer className="footer">
+  <p>
+    Built with ❤️ by <strong>Srilakshmi Kota</strong>
+  </p>
+
+  <div className="footer-links">
+    <a
+      href="https://github.com/Srilakshmi-Kota"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      GitHub
+    </a>
+
+    <span>•</span>
+
+    <a
+      href="https://www.linkedin.com/in/srilakshmi-saraswathi-kota-139ba4294"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      LinkedIn
+    </a>
+  </div>
+</footer>
 }
 
 export default App;

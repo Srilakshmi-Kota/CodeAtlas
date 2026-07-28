@@ -1074,8 +1074,7 @@ function App() {
         </div>
       )}
 
-    </div>
-  );
+   
   <footer className="footer">
   <p>
     Built with ❤️ by <strong>Srilakshmi Kota</strong>
@@ -1101,6 +1100,8 @@ function App() {
     </a>
   </div>
 </footer>
+ </div>
+  );
 }
 
 export default App;
